@@ -1,7 +1,7 @@
-import "./jsdom-helper.ts"
+import {formField} from "html-form-field"
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
-import {formField} from "html-form-field"
+import "./jsdom-helper.ts"
 
 describe("label", async () => {
     const {ELE} = await import("html-ele")
@@ -53,9 +53,9 @@ describe("label", async () => {
      * browsers look not to connect labels until the node is attached on DOM tree
      */
     const labelsConnected = !!form.querySelector<HTMLInputElement>(`input[name="TX"]`)?.labels?.length
-    ;(labelsConnected ? it : it.skip)("separated label", () => {
-        const field = formField({form, name: "TX"})
-        assert.equal(field.name, "TX")
-        assert.deepEqual(field.items().map(v => v.label), ["tx-label"])
-    })
+        ;(labelsConnected ? it : it.skip)("separated label", () => {
+            const field = formField({form, name: "TX"})
+            assert.equal(field.name, "TX")
+            assert.deepEqual(field.items().map(v => v.label), ["tx-label"])
+        })
 })

@@ -23,7 +23,8 @@
     "mocha": "^11.7.6",
     "rollup": "^4.60.4",
     "terser": "^5.48.0",
-    "typescript": "^5.9.3"
+    "ts-refine": "^0.6.0",
+    "typescript": "^6.0.3"
   },
   "devEngines": {
     "runtime": {
@@ -75,7 +76,8 @@
     "fixpack": "fixpack",
     "prepack": "make -C builder is-buildable",
     "prepare": "make -C builder is-not-buildable 2> /dev/null || make -C builder clean all test",
-    "test": "make -C builder test"
+    "test": "make -C builder test",
+    "ts-refine": "./node_modules/.bin/ts-refine format && ./node_modules/.bin/ts-refine imports"
   },
   "sideEffects": false,
   "type": "module",

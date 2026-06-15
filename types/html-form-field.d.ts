@@ -21,7 +21,7 @@ declare namespace formField {
      */
     type StringKeys<T> = [T] extends [undefined]
         ? string
-        : { [K in keyof T]: K extends string ? (T[K] extends string ? K : never) : never }[keyof T];
+        : {[K in keyof T]: K extends string ? (T[K] extends string ? K : never) : never}[keyof T]
 
     /** Handler invoked when a field value is written. See `FormFieldOptions.onWrite`. */
     type OnWrite<T> = FormFieldOptions<T>["onWrite"]

@@ -11,7 +11,7 @@ const checkableMap: Record<string, boolean> = {
     checkbox: true,
 }
 
-type UpperCaseTagNameMap = { [K in Uppercase<keyof HTMLElementTagNameMap>]: HTMLElementTagNameMap[Lowercase<K>] }
+type UpperCaseTagNameMap = {[K in Uppercase<keyof HTMLElementTagNameMap>]: HTMLElementTagNameMap[Lowercase<K>]}
 
 const isElementOf = <N extends keyof UpperCaseTagNameMap>(v: Node, tagName: N): v is UpperCaseTagNameMap[N] => ((v as HTMLElement).tagName === tagName)
 

@@ -4,6 +4,6 @@
 // build fails here.
 import type * as declared from "html-form-field"
 
-export {formField} from "./form-field.ts"
 export type {FormField, FormFieldOptions} from "html-form-field"
+export {formField} from "./form-field.ts"
 export type formField = typeof declared.formField

@@ -1,7 +1,7 @@
-import "./jsdom-helper.ts"
+import {formField} from "html-form-field"
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
-import {formField} from "html-form-field"
+import "./jsdom-helper.ts"
 
 describe("basic-usage", async () => {
     const {ELE} = await import("html-ele")

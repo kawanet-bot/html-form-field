@@ -9,27 +9,27 @@
 // whole node:assert polyfill, which would balloon the test bundle.
 
 const isObject = (v: unknown): v is Record<PropertyKey, unknown> =>
-    v !== null && typeof v === "object";
+    v !== null && typeof v === "object"
 
 const deepEqual = (a: unknown, b: unknown): boolean => {
-    if (Object.is(a, b)) return true;
-    if (!isObject(a) || !isObject(b)) return false;
-    if (Array.isArray(a) !== Array.isArray(b)) return false;
-    const ak = Reflect.ownKeys(a);
-    const bk = Reflect.ownKeys(b);
-    if (ak.length !== bk.length) return false;
+    if (Object.is(a, b)) return true
+    if (!isObject(a) || !isObject(b)) return false
+    if (Array.isArray(a) !== Array.isArray(b)) return false
+    const ak = Reflect.ownKeys(a)
+    const bk = Reflect.ownKeys(b)
+    if (ak.length !== bk.length) return false
     for (const k of ak) {
-        if (!Object.prototype.hasOwnProperty.call(b, k)) return false;
-        if (!deepEqual((a as Record<PropertyKey, unknown>)[k], (b as Record<PropertyKey, unknown>)[k])) return false;
+        if (!Object.prototype.hasOwnProperty.call(b, k)) return false
+        if (!deepEqual((a as Record<PropertyKey, unknown>)[k], (b as Record<PropertyKey, unknown>)[k])) return false
     }
-    return true;
-};
+    return true
+}
 
 export const strict = {
     // Truthy check. Mirrors `assert.ok(value, message?)` in node:assert.
     ok(value: unknown, message?: string): void {
         if (!value) {
-            throw new Error(message || `expected truthy, got ${JSON.stringify(value)}`);
+            throw new Error(message || `expected truthy, got ${JSON.stringify(value)}`)
         }
     },
 
@@ -38,7 +38,7 @@ export const strict = {
     // `equal(0, -0)` fails, both opposite of `===`.
     equal(actual: unknown, expected: unknown, message?: string): void {
         if (!Object.is(actual, expected)) {
-            throw new Error(message || `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+            throw new Error(message || `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
         }
     },
 
@@ -50,7 +50,7 @@ export const strict = {
     // exercising them.
     deepEqual(actual: unknown, expected: unknown, message?: string): void {
         if (!deepEqual(actual, expected)) {
-            throw new Error(message || `expected deep-equal ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+            throw new Error(message || `expected deep-equal ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
         }
     },
 
@@ -59,25 +59,25 @@ export const strict = {
     // value must be an instance of it. With no `expected` any throw
     // counts.
     throws(block: () => void, expected?: RegExp | (new (...args: unknown[]) => Error)): void {
-        let thrown: unknown;
-        let didThrow = false;
+        let thrown: unknown
+        let didThrow = false
         try {
-            block();
+            block()
         } catch (e) {
-            thrown = e;
-            didThrow = true;
+            thrown = e
+            didThrow = true
         }
         if (!didThrow) {
-            throw new Error("expected to throw, did not");
+            throw new Error("expected to throw, did not")
         }
         if (expected instanceof RegExp) {
-            const msg = thrown instanceof Error ? thrown.message : String(thrown);
+            const msg = thrown instanceof Error ? thrown.message : String(thrown)
             if (!expected.test(msg)) {
-                throw new Error(`thrown message ${JSON.stringify(msg)} did not match ${expected}`);
+                throw new Error(`thrown message ${JSON.stringify(msg)} did not match ${expected}`)
             }
         } else if (typeof expected === "function") {
             if (!(thrown instanceof expected)) {
-                throw new Error(`thrown is not an instance of ${expected.name}`);
+                throw new Error(`thrown is not an instance of ${expected.name}`)
             }
         }
     },
@@ -86,10 +86,10 @@ export const strict = {
     // debugging instead of just reporting "did throw".
     doesNotThrow(block: () => void, message?: string): void {
         try {
-            block();
+            block()
         } catch (e) {
-            const detail = e instanceof Error ? e.message : String(e);
-            throw new Error(message ? `${message}: ${detail}` : `expected not to throw, got: ${detail}`);
+            const detail = e instanceof Error ? e.message : String(e)
+            throw new Error(message ? `${message}: ${detail}` : `expected not to throw, got: ${detail}`)
         }
     },
-};
+}

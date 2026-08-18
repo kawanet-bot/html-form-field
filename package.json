@@ -1,7 +1,7 @@
 {
   "name": "html-form-field",
   "description": "Unified interface for HTML form fields with synchronized binding to object properties",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "author": "@kawanet",
   "bugs": {
     "url": "https://github.com/kawanet/html-form-field/issues"

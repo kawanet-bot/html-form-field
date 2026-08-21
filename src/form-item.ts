@@ -86,7 +86,7 @@ class InputItem<E extends HTMLInputElement | HTMLTextAreaElement | HTMLButtonEle
 
     constructor(entry: FormField, node: E) {
         super(entry, node)
-        this.checkable = checkableMap[node.type]
+        this.checkable = checkableMap[node.type]!
     }
 
     protected getChecked() {

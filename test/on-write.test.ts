@@ -97,13 +97,13 @@ describe("on-write", async () => {
         assert.deepEqual(getChanged(), [])
 
         // direct DOM manipulation not to invoke onWrite/onChange
-        $elems[0].checked = true
+        $elems[0]!.checked = true
         assert.equal(field.value, "RB1")
         assert.deepEqual(getWritten(), [])
         assert.deepEqual(getChanged(), [])
 
         // change event to invoke onWrite/onChange
-        $elems[0].dispatchEvent(new Event("change", {bubbles: true}))
+        $elems[0]?.dispatchEvent(new Event("change", {bubbles: true}))
         assert.deepEqual(getWritten(), [{name: "RB", value: "RB1"}])
         assert.deepEqual(getChanged(), [{name: "RB", value: "RB1"}])
     })
@@ -149,13 +149,13 @@ describe("on-write", async () => {
         assert.deepEqual(getChanged(), [])
 
         // direct DOM manipulation not to invoke onWrite/onChange
-        $elems[0].checked = true
+        $elems[0]!.checked = true
         assert.equal(field.value, "CB1,CB2")
         assert.deepEqual(getWritten(), [])
         assert.deepEqual(getChanged(), [])
 
         // change event to invoke onWrite/onChange
-        $elems[0].dispatchEvent(new Event("change", {bubbles: true}))
+        $elems[0]?.dispatchEvent(new Event("change", {bubbles: true}))
         assert.deepEqual(getWritten(), [{name: "CB", value: "CB1,CB2"}])
         assert.deepEqual(getChanged(), [{name: "CB", value: "CB1,CB2"}])
     })

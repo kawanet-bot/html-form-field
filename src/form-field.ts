@@ -122,7 +122,7 @@ class FormBridgeImpl<T = any> implements FormField<T> {
             const delim = this.options.delim || DELIM
             return values.join(delim)
         } else {
-            return values[0]
+            return values[0]!
         }
     }
 
@@ -134,7 +134,7 @@ class FormBridgeImpl<T = any> implements FormField<T> {
     protected setValue(value: string | string[]): boolean {
         const items = this.items()
 
-        if (items.length === 1 && !items[0].checkable && isString(value)) {
+        if (items.length === 1 && !items[0]!.checkable && isString(value)) {
             value = [value]
         }
 

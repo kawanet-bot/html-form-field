@@ -67,7 +67,7 @@ describe("basic-usage", async () => {
         assert.equal(field.value, "RB2")
 
         assert.equal(field.current().length, 1)
-        assert.equal(field.current().at(0).value, "RB2")
+        assert.equal(field.current().at(0)?.value, "RB2")
 
         field.value = "RB3"
         assert.equal(field.value, "RB3")
@@ -77,7 +77,7 @@ describe("basic-usage", async () => {
         assert.equal(field.has("RB3"), true)
 
         assert.equal(field.current().length, 1)
-        assert.equal(field.current().at(0).value, "RB3")
+        assert.equal(field.current().at(0)?.value, "RB3")
     })
 
     it("select-one", () => {
@@ -87,13 +87,13 @@ describe("basic-usage", async () => {
         assert.equal(field.value, "SS2")
 
         assert.equal(field.current().length, 1)
-        assert.equal(field.current().at(0).value, "SS2")
+        assert.equal(field.current().at(0)?.value, "SS2")
 
         field.value = "SS3"
         assert.equal(field.value, "SS3")
 
         assert.equal(field.current().length, 1)
-        assert.equal(field.current().at(0).value, "SS3")
+        assert.equal(field.current().at(0)?.value, "SS3")
     })
 
     it("checkbox", () => {
@@ -163,6 +163,6 @@ describe("basic-usage", async () => {
         const BT2 = formField({form, name: "BT2"})
         assert.equal(BT2.name, "BT2")
         assert.equal(BT2.value, "bt2")
-        assert.equal(BT2.items().at(0).label, "bt2-text")
+        assert.equal(BT2.items().at(0)?.label, "bt2-text")
     })
 })

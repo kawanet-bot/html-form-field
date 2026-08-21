@@ -22,9 +22,9 @@ describe("synopsis", async () => {
     `)
 
     // mock implementation for testing
-    const console = {log: ((v: string | boolean) => assert.ok(v))}
-    const submitForm = (): void => null
-    const sessionStorage = {getItem: (name: string): string => null, setItem: (name: string, value: string): void => null}
+    const console = {log: ((v: string | boolean | undefined) => assert.ok(v))}
+    const submitForm = () => null
+    const sessionStorage = {getItem: (name: string): string | null => null, setItem: (name: string, value: string) => null}
     const document = {querySelector: (selector: string) => form}
 
     it("SYNOPSIS", () => {
@@ -36,7 +36,7 @@ describe("synopsis", async () => {
             favo: string
         }
 
-        const form = document.querySelector("form")
+        const form = document.querySelector("form")!
 
         const ctx = {} as Context
 
@@ -68,11 +68,11 @@ describe("synopsis", async () => {
 
         // Shortcut to item by index. Equivalent to items().at(index))
         const firstItem = favo.itemAt(0)
-        console.log(firstItem.checked)
+        console.log(firstItem!.checked)
 
         // Shortcut to item by value. Equivalent to items().find(v => v.value === value)
         const travelItem = favo.itemOf("travel")
-        console.log(travelItem.checked)
+        console.log(travelItem!.checked)
     })
 
     it("Change handling and defaults", () => {
@@ -81,7 +81,9 @@ describe("synopsis", async () => {
             name: "email",
             onWrite: ({name, value}) => sessionStorage.setItem(name, value),
             onChange: ({name, value}) => submitForm(),
-            defaults: [sessionStorage.getItem("email")],
+            // sessionStorage.getItem() returns string | null, which is what the
+            // README shows, but defaults is declared string[]. See the PR notes.
+            defaults: [sessionStorage.getItem("email")] as unknown as string[],
         })
     })
 })

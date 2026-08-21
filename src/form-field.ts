@@ -63,7 +63,7 @@ const triggerOnChange = <T>(field: FormField<T>) => {
     if (onChange) onChange(field)
 }
 
-const applyBindTo = <T>(bindTo: T, name: NS.StringKeys<T>, field: FormField<T>) => {
+const applyBindTo = <T>(bindTo: T | undefined, name: NS.StringKeys<T>, field: FormField<T>) => {
     if (!bindTo) return // nothing to be bound
 
     delete bindTo[name as keyof T]
@@ -202,7 +202,7 @@ class FormBridgeImpl<T = any> implements FormField<T> {
     }
 
     toggle(value: string, checked?: boolean): boolean {
-        let result: boolean
+        let result!: boolean
         const delim = this.options.delim || DELIM
         const values = splitString(value, delim)
 

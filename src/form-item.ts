@@ -78,7 +78,7 @@ abstract class BaseFormItem<E extends NS.ItemElement> implements NS.FormItem<E> 
         this.node.disabled = disabled
     }
 
-    abstract get label(): string
+    abstract get label(): string | undefined
 }
 
 class InputItem<E extends HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement> extends BaseFormItem<E> {
@@ -107,7 +107,7 @@ class InputItem<E extends HTMLInputElement | HTMLTextAreaElement | HTMLButtonEle
             if (text) return text
         }
 
-        const labels = node.labels
+        const labels = node.labels || []
         for (const label of labels) {
             const text = pickText(label)
             if (text) return text

@@ -31,8 +31,8 @@ describe("same-name", async () => {
             const field = formField({form, name: "TXTA"})
             assert.equal(field.value, "TX,TA")
             field.value = "tx1,ta1"
-            assert.equal(field.items().at(0).value, "tx1")
-            assert.equal(field.items().at(1).value, "ta1")
+            assert.equal(field.items().at(0)?.value, "tx1")
+            assert.equal(field.items().at(1)?.value, "ta1")
         }
 
         {

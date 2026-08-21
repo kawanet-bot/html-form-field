@@ -5,7 +5,7 @@ import "./jsdom-helper.ts"
 
 describe("on-write", async () => {
     const {ELE} = await import("html-ele")
-    const Event = document.defaultView.Event
+    const Event = document.defaultView!.Event
 
     // language=HTML
     const form = (ELE`
@@ -51,7 +51,7 @@ describe("on-write", async () => {
         const [getWritten, onWrite] = handler()
         const [getChanged, onChange] = handler()
         const field = formField({form, onWrite, onChange, name: "TX"})
-        const $elem = form.querySelector<HTMLInputElement>(`input[name="TX"]`)
+        const $elem = form.querySelector<HTMLInputElement>(`input[name="TX"]`)!
 
         assert.equal(field.value, "FOO")
         assert.equal($elem.value, "FOO")
@@ -75,7 +75,7 @@ describe("on-write", async () => {
         assert.deepEqual(getChanged(), [{name: "TX", value: "BUZ"}])
 
         // setting value to invoke onWrite but not onChange
-        field.items().at(0).value = "BUZ"
+        field.items().at(0)!.value = "BUZ"
         assert.equal(field.value, "BUZ")
         assert.equal($elem.value, "BUZ")
         assert.deepEqual(getWritten(), [{name: "TX", value: "BUZ"}])
@@ -86,7 +86,7 @@ describe("on-write", async () => {
         const [getWritten, onWrite] = handler()
         const [getChanged, onChange] = handler()
         const field = formField({form, onWrite, onChange, name: "RB"})
-        const $elems = form.querySelectorAll<HTMLInputElement>(`input[name="RB"]`)
+        const $elems = form.querySelectorAll<HTMLInputElement>(`input[name="RB"]`)!
 
         assert.equal(field.value, "RB2")
 
@@ -112,7 +112,7 @@ describe("on-write", async () => {
         const [getWritten, onWrite] = handler()
         const [getChanged, onChange] = handler()
         const field = formField({form, onWrite, onChange, name: "SS"})
-        const $elem = form.querySelector<HTMLSelectElement>(`select[name="SS"]`)
+        const $elem = form.querySelector<HTMLSelectElement>(`select[name="SS"]`)!
 
         assert.equal(field.value, "SS2")
 
@@ -138,7 +138,7 @@ describe("on-write", async () => {
         const [getWritten, onWrite] = handler()
         const [getChanged, onChange] = handler()
         const field = formField({form, onWrite, onChange, name: "CB"})
-        const $elems = form.querySelectorAll<HTMLInputElement>(`input[name="CB"]`)
+        const $elems = form.querySelectorAll<HTMLInputElement>(`input[name="CB"]`)!
 
         assert.equal(field.value, "CB1,CB3")
 
@@ -164,7 +164,7 @@ describe("on-write", async () => {
         const [getWritten, onWrite] = handler()
         const [getChanged, onChange] = handler()
         const field = formField({form, onWrite, onChange, name: "SM"})
-        const $elem = form.querySelector<HTMLSelectElement>(`select[name="SM"]`)
+        const $elem = form.querySelector<HTMLSelectElement>(`select[name="SM"]`)!
 
         assert.equal(field.value, "SM1,SM3")
 
@@ -175,9 +175,9 @@ describe("on-write", async () => {
         assert.deepEqual(getChanged(), [])
 
         // direct DOM manipulation not to invoke onWrite/onChange
-        $elem.options.item(0).selected = true
-        $elem.options.item(1).selected = true
-        $elem.options.item(2).selected = false
+        $elem.options.item(0)!.selected = true
+        $elem.options.item(1)!.selected = true
+        $elem.options.item(2)!.selected = false
         assert.equal(field.value, "SM1,SM2")
         assert.deepEqual(getWritten(), [])
         assert.deepEqual(getChanged(), [])

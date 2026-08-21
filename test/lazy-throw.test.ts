@@ -8,7 +8,7 @@ describe("lazy-throw on missing", async () => {
     // node:test runs under jsdom but does not expose the DOM constructors
     // on globalThis — only `document`. Pull `Event` from the window so
     // `new Event("change")` works the same as in the browser.
-    const Event = document.defaultView.Event
+    const Event = document.defaultView!.Event
 
     it("construction does not throw when zero controls match", () => {
         // language=HTML
@@ -67,7 +67,7 @@ describe("lazy-throw on missing", async () => {
         `)
 
         const field = formField({form, name: "favo"})
-        const wrapper = form.querySelector<HTMLDivElement>("div.radio-group")
+        const wrapper = form.querySelector<HTMLDivElement>("div.radio-group")!
 
         wrapper.append(ELE`<label><input type="radio" name="favo" value="tech">Tech</label>`)
         wrapper.append(ELE`<label><input type="radio" name="favo" value="travel">Travel</label>`)
@@ -90,7 +90,7 @@ describe("lazy-throw on missing", async () => {
         const field = formField({form, name: "favo"})
         assert.equal(field.items().length, 1, "sanity: matched once")
 
-        const wrapper = field.closest<HTMLDivElement>("div.radio-group")
+        const wrapper = field.closest<HTMLDivElement>("div.radio-group")!
         wrapper.replaceChildren()
         field.reload()
 
@@ -116,7 +116,7 @@ describe("lazy-throw on missing", async () => {
 
         let fired = 0
         const field = formField({form, name: "favo", onChange: () => fired++})
-        const travel = form.querySelector<HTMLInputElement>('input[value="travel"]')
+        const travel = form.querySelector<HTMLInputElement>('input[value="travel"]')!
 
         // Sanity: the original binding fires.
         travel.dispatchEvent(new Event("change"))

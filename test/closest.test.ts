@@ -20,7 +20,7 @@ describe("closest", async () => {
         `)
 
         const field = formField({form, name: "city"})
-        const select = field.closest<HTMLSelectElement>("select")
+        const select = field.closest<HTMLSelectElement>("select")!
         assert.ok(select)
         assert.equal(select.tagName, "SELECT")
         assert.equal(select.name, "city")
@@ -43,7 +43,7 @@ describe("closest", async () => {
         const field = formField({form, name: "lazy"})
         assert.equal(field.items().length, 0, "sanity: no items in an empty select")
 
-        const select = field.closest<HTMLSelectElement>("select")
+        const select = field.closest<HTMLSelectElement>("select")!
         assert.ok(select)
         assert.equal(select.tagName, "SELECT")
 
@@ -66,7 +66,7 @@ describe("closest", async () => {
         `)
 
         const field = formField({form, name: "nickname"})
-        const input = field.closest<HTMLInputElement>("input")
+        const input = field.closest<HTMLInputElement>("input")!
         assert.ok(input)
         assert.equal(input.tagName, "INPUT")
         assert.equal(input.name, "nickname")
@@ -81,7 +81,7 @@ describe("closest", async () => {
         `)
 
         const field = formField({form, name: "nickname"})
-        const f = field.closest<HTMLFormElement>("form")
+        const f = field.closest<HTMLFormElement>("form")!
         assert.equal(f, form)
         assert.equal(f.tagName, "FORM")
     })
@@ -98,7 +98,7 @@ describe("closest", async () => {
         `)
 
         const field = formField({form, name: "favo"})
-        const div = field.closest<HTMLDivElement>("div.group")
+        const div = field.closest<HTMLDivElement>("div.group")!
         assert.ok(div)
         assert.equal(div.tagName, "DIV")
         assert.equal(div.className, "group")
@@ -126,7 +126,7 @@ describe("closest", async () => {
         `)
 
         const field = formField({form, name: "city"})
-        const before = field.closest<HTMLSelectElement>("select")
+        const before = field.closest<HTMLSelectElement>("select")!
         assert.ok(before)
 
         // Add an option and reload. The closest() lookup must still
@@ -135,7 +135,7 @@ describe("closest", async () => {
         before.append(ELE`<option value="tokyo">Tokyo</option>`)
         field.reload()
 
-        const after = field.closest<HTMLSelectElement>("select")
+        const after = field.closest<HTMLSelectElement>("select")!
         assert.equal(after, before, "closest() returns the same <select> after reload()")
         assert.equal(field.items().length, 1)
     })

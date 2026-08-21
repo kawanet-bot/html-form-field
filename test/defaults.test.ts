@@ -72,12 +72,12 @@ describe("defaults", async () => {
     })
 
     it("text null", () => {
-        const field = formField({form, name: "TX", defaults: [null, undefined, "tx3"]})
+        const field = formField({form, name: "TX", defaults: [null, undefined, "tx3"] as unknown as string[]})
         assert.equal(field.value, "tx3")
     })
 
     it("textarea null", () => {
-        const field = formField({form, name: "TX", defaults: [null, undefined, "ta3"]})
+        const field = formField({form, name: "TX", defaults: [null, undefined, "ta3"] as unknown as string[]})
         assert.equal(field.value, "ta3")
     })
 })

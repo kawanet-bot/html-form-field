@@ -97,8 +97,8 @@ describe("bind-to", async () => {
         const ghost = formField({form, bindTo: ctx, name: "TX0"})
         assert.throws(() => ghost.items(), /Not found/)
 
-        assert.throws(() => formField({form, bindTo: ctx, name: undefined}), /Invalid name/)
+        assert.throws(() => formField({form, bindTo: ctx, name: undefined as unknown as "TX"}), /Invalid name/)
 
-        assert.throws(() => formField({form, bindTo: ctx, name: null}), /Invalid name/)
+        assert.throws(() => formField({form, bindTo: ctx, name: null as unknown as "TX"}), /Invalid name/)
     })
 })

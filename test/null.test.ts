@@ -29,14 +29,14 @@ describe("null", async () => {
 
     it("text", () => {
         const field = formField({form, name: "TX"})
-        const $input = form.querySelector<HTMLInputElement>(`input[name="TX"]`)
+        const $input = form.querySelector<HTMLInputElement>(`input[name="TX"]`)!
         assert.equal(field.value, "tx1")
 
-        field.value = null
+        field.value = null as unknown as string
         assert.equal($input.value, "", "#1")
         assert.equal(field.value, "", "#2")
 
-        field.value = undefined
+        field.value = undefined as unknown as string
         assert.equal($input.value, "", "#3")
         assert.equal(field.value, "", "#4")
 
@@ -47,14 +47,14 @@ describe("null", async () => {
 
     it("radio", () => {
         const field = formField({form, name: "RB"})
-        const $input = form.querySelector<HTMLInputElement>(`input[name="RB"]`)
+        const $input = form.querySelector<HTMLInputElement>(`input[name="RB"]`)!
         assert.equal(field.value, "RB1")
 
-        field.value = null
+        field.value = null as unknown as string
         assert.equal($input.value, "RB1", "#1")
         assert.equal(field.value, undefined, "#2")
 
-        field.value = undefined
+        field.value = undefined as unknown as string
         assert.equal(field.value, undefined, "#3")
 
         field.value = ""
@@ -66,14 +66,14 @@ describe("null", async () => {
 
     it("checkbox", () => {
         const field = formField({form, name: "CB"})
-        const $input = form.querySelector<HTMLInputElement>(`input[name="CB"]`)
+        const $input = form.querySelector<HTMLInputElement>(`input[name="CB"]`)!
         assert.equal(field.value, "CB1")
 
-        field.value = null
+        field.value = null as unknown as string
         assert.equal($input.value, "CB1", "#1")
         assert.equal(field.value, undefined, "#2")
 
-        field.value = undefined
+        field.value = undefined as unknown as string
         assert.equal(field.value, undefined, "#3")
 
         field.value = ""
@@ -87,10 +87,10 @@ describe("null", async () => {
         const field = formField({form, name: "SM"})
         assert.equal(field.value, "SM1")
 
-        field.value = null
+        field.value = null as unknown as string
         assert.equal(field.value, undefined, "#1")
 
-        field.value = undefined
+        field.value = undefined as unknown as string
         assert.equal(field.value, undefined, "#2")
 
         field.value = ""

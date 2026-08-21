@@ -5,7 +5,7 @@ import "./jsdom-helper.ts"
 
 describe("reload", async () => {
     const {ELE, HTML} = await import("html-ele")
-    const Event = document.defaultView.Event
+    const Event = document.defaultView!.Event
 
     // language=HTML
     const form = (ELE`
@@ -32,10 +32,10 @@ describe("reload", async () => {
 
         assert.equal(field.value, "CB1,CB3")
 
-        form.querySelector(`input[value="CB3"]`).remove()
+        form.querySelector(`input[value="CB3"]`)!.remove()
 
         // language=HTML
-        form.querySelector("div").append(HTML`
+        form.querySelector("div")!.append(HTML`
             <label><input type="checkbox" name="CB" value="CB4">cb4</label>
             <label><input type="checkbox" name="CB" value="CB5" checked>cb5</label>
         `)
@@ -44,7 +44,7 @@ describe("reload", async () => {
         assert.equal(field.value, "CB1,CB5")
 
         // direct DOM manipulation not to invoke onWrite/onChange
-        const $CB1 = form.querySelector<HTMLInputElement>(`input[value="CB1"]`)
+        const $CB1 = form.querySelector<HTMLInputElement>(`input[value="CB1"]`)!
         $CB1.checked = false
         assert.deepEqual(getWritten(), [])
         assert.deepEqual(getChanged(), [])

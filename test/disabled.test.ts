@@ -38,7 +38,7 @@ describe("disabled", async () => {
         assert.equal(field.name, "TX")
         assert.equal(field.value, undefined)
 
-        field.items().at(0).disabled = false
+        field.items().at(0)!.disabled = false
         assert.equal(field.value, "tx1")
     })
 
@@ -49,7 +49,7 @@ describe("disabled", async () => {
         assert.equal(field.value, undefined)
         assert.equal(field.has("RB1"), false)
 
-        field.items().at(0).disabled = false
+        field.items().at(0)!.disabled = false
         assert.equal(field.value, "RB1")
         assert.equal(field.has("RB1"), true)
     })
@@ -61,7 +61,7 @@ describe("disabled", async () => {
         assert.equal(field.value, undefined)
         assert.equal(field.has("CB1"), false)
 
-        field.items().at(0).disabled = false
+        field.items().at(0)!.disabled = false
         assert.equal(field.value, "CB1")
         assert.equal(field.has("CB1"), true)
     })
@@ -71,11 +71,11 @@ describe("disabled", async () => {
 
         assert.equal(field.name, "SM2")
         assert.equal(field.value, undefined)
-        assert.equal(field.items().at(0).disabled, true)
+        assert.equal(field.items().at(0)?.disabled, true)
         assert.equal(field.has("SM21"), false)
 
-        field.items().at(0).disabled = false
-        assert.equal(field.items().at(0).disabled, false)
+        field.items().at(0)!.disabled = false
+        assert.equal(field.items().at(0)?.disabled, false)
         assert.equal(field.value, "SM21")
         assert.equal(field.has("SM21"), true)
     })
@@ -86,7 +86,7 @@ describe("disabled", async () => {
         assert.equal(field.name, "TA")
         assert.equal(field.value, undefined)
 
-        field.items().at(0).disabled = false
+        field.items().at(0)!.disabled = false
         assert.equal(field.value, "ta1")
     })
 })

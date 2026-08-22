@@ -147,7 +147,7 @@ test-full: all
 # Run the bundled suites against dist/. CI uses this to cover runtimes
 # older than the build requirement, where the .ts sources cannot run.
 test-bundled: $(TESTS_DST) smoke
-	cd .. && REPEAT=$${REPEAT:-1} node --test builder/tests/bundled.js
+	cd .. && node --test builder/tests/bundled.js
 
 ####
 

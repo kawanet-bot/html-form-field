@@ -1,6 +1,6 @@
-import {formField, type FormField} from "html-form-field"
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
+import {formField, type FormField} from "../src/index.ts"
 import "./jsdom-helper.ts"
 
 describe("reload", async () => {

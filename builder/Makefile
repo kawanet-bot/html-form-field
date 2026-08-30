@@ -38,7 +38,7 @@ MAX_BYTES := 16000
 # test bundle itself stays modest.
 TEST_MAX_BYTES := 80000
 
-ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST) $(BROWSER_TEST_DST) $(BUILDER_TEST_DST)
+ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST) $(BROWSER_TEST_DST)
 
 # Build/test paths require Node's native TypeScript type-strip (default on
 # Node 22.18+). Older runtimes (e.g. Node 20) report BUILDABLE=NO and can
@@ -135,7 +135,7 @@ smoke-minjs: $(MINJS_DST) $(PKG_DST)
 # CI re-runs `npm test` explicitly so the validation appears in logs.
 test:
 	@case "$$npm_command" in \
-		install|ci) echo "npm $$npm_command detected: skipping full tests." ;; \
+		install|ci|pack) echo "npm $$npm_command detected: skipping full tests." ;; \
 		*) $(MAKE) test-full ;; \
 	esac
 

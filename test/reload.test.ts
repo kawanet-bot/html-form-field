@@ -1,9 +1,11 @@
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
 import {formField, type FormField} from "../src/index.ts"
-import "./jsdom-helper.ts"
+import {skipDomTests} from "./jsdom-helper.ts"
 
-describe("reload", async () => {
+const DESCRIBE = skipDomTests ? describe.skip : describe
+
+DESCRIBE("reload", async () => {
     const {ELE, HTML} = await import("html-ele")
     const Event = document.defaultView.Event
 

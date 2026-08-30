@@ -1,9 +1,11 @@
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
 import {formField} from "../src/index.ts"
-import "./jsdom-helper.ts"
+import {skipDomTests} from "./jsdom-helper.ts"
 
-describe("lazy-throw on missing", async () => {
+const DESCRIBE = skipDomTests ? describe.skip : describe
+
+DESCRIBE("lazy-throw on missing", async () => {
     const {ELE} = await import("html-ele")
     // node:test runs under jsdom but does not expose the DOM constructors
     // on globalThis — only `document`. Pull `Event` from the window so

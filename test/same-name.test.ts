@@ -1,9 +1,11 @@
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
 import {formField} from "../src/index.ts"
-import "./jsdom-helper.ts"
+import {skipDomTests} from "./jsdom-helper.ts"
 
-describe("same-name", async () => {
+const DESCRIBE = skipDomTests ? describe.skip : describe
+
+DESCRIBE("same-name", async () => {
     const {ELE} = await import("html-ele")
 
     it("same-name", () => {

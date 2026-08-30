@@ -1,9 +1,11 @@
 import {strict as assert} from "node:assert"
 import {describe, it} from "node:test"
 import {formField} from "../src/index.ts"
-import "./jsdom-helper.ts"
+import {skipDomTests} from "./jsdom-helper.ts"
 
-describe("closest", async () => {
+const DESCRIBE = skipDomTests ? describe.skip : describe
+
+DESCRIBE("closest", async () => {
     const {ELE} = await import("html-ele")
 
     it("select: returns the <select> itself (closest is inclusive)", () => {

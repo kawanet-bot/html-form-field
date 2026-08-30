@@ -12,14 +12,14 @@ PKG_DST := ../dist/package.json
 MJS_DST := ../dist/html-form-field.mjs
 CJS_DST := ../dist/html-form-field.cjs
 MINJS_DST := ../dist/html-form-field.min.js
-TEST_DST := ../browser/tests/bundled.js
-TESTS_DST := ../builder/tests/bundled.js
+BROWSER_TEST_DST := ../browser/tests/bundled.js
+BUILDER_TEST_DST := ../builder/tests/bundled.js
 
 MJS_CONFIG := ./rollup-mjs.config.ts
 CJS_CONFIG := ./rollup-cjs.config.ts
 MINJS_CONFIG := ./rollup-minjs.config.ts
-TEST_CONFIG := ./rollup-test.config.ts
-TESTS_CONFIG := ./rollup-tests.config.ts
+BROWSER_TEST_CONFIG := ./rollup-browser-test.config.ts
+BUILDER_TEST_CONFIG := ./rollup-builder-test.config.ts
 
 # Public named export verified by smoke targets — the only runtime
 # entry exposed by the package.
@@ -38,7 +38,7 @@ MAX_BYTES := 16000
 # test bundle itself stays modest.
 TEST_MAX_BYTES := 80000
 
-ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST) $(TEST_DST) $(TESTS_DST)
+ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST) $(BROWSER_TEST_DST) $(BUILDER_TEST_DST)
 
 # Build/test paths require Node's native TypeScript type-strip (default on
 # Node 22.18+). Older runtimes (e.g. Node 20) report BUILDABLE=NO and can
@@ -88,7 +88,7 @@ $(MINJS_DST): $(MINJS_CONFIG) $(SRC) $(BUILDER_SRC) $(PKG_DST)
 	@echo ""
 
 # Browser test bundle loaded by browser/tests.html.
-$(TEST_DST): $(TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(BROWSER_SRC) $(MINJS_DST)
+$(BROWSER_TEST_DST): $(BROWSER_TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(BROWSER_SRC) $(MINJS_DST)
 	@mkdir -p $(dir $@)
 	../node_modules/.bin/rollup -c $<
 	@ls -l $@
@@ -97,7 +97,7 @@ $(TEST_DST): $(TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(BROWSER_SRC) $(M
 
 # Plain-JS bundle of the test suites, importing the package by name.
 # Runs against dist/ on any supported Node runtime without type-strip.
-$(TESTS_DST): $(TESTS_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(MJS_DST)
+$(BUILDER_TEST_DST): $(BUILDER_TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(MJS_DST)
 	@mkdir -p $(dir $@)
 	../node_modules/.bin/rollup -c $<
 	@ls -l $@

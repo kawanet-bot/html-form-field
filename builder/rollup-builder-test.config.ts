@@ -9,13 +9,16 @@ import {showFiles} from "./show-files.ts"
 // package by name, so any supported Node.js runtime can run them against
 // dist/ without needing type-strip.
 const rollupConfig: RollupOptions = {
+    // Every suite rides the bundle: DOM-dependent ones skip themselves when
+    // NO_JSDOM is set (the packed matrix installs no devDependencies), and
+    // run wherever jsdom is available -- checkouts and the publish gate.
     input: "../test/*.test.ts",
 
     // Bare specifiers stay external; only relative paths are bundled.
     external: /^[^.\/]/,
 
     output: {
-        file: "./tests/bundled.js",
+        file: "./tests/bundled.mjs",
         format: "esm",
     },
 

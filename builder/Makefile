@@ -13,7 +13,7 @@ MJS_DST := ../dist/html-form-field.mjs
 CJS_DST := ../dist/html-form-field.cjs
 MINJS_DST := ../dist/html-form-field.min.js
 BROWSER_TEST_DST := ../browser/tests/bundled.js
-BUILDER_TEST_DST := ../builder/tests/bundled.js
+BUILDER_TEST_DST := ./tests/bundled.mjs
 
 MJS_CONFIG := ./rollup-mjs.config.ts
 CJS_CONFIG := ./rollup-cjs.config.ts

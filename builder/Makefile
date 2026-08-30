@@ -1,4 +1,4 @@
-# Force bash so `set -o pipefail` works in the smoke-minjs recipe below.
+# Force bash so `set -o pipefail` works in the recipes below.
 SHELL := bash
 .SHELLFLAGS := -eo pipefail -c
 
@@ -21,10 +21,6 @@ MINJS_CONFIG := ./rollup-minjs.config.ts
 BROWSER_TEST_CONFIG := ./rollup-browser-test.config.ts
 BUILDER_TEST_CONFIG := ./rollup-builder-test.config.ts
 
-# Public named export verified by smoke targets — the only runtime
-# entry exposed by the package.
-NAMED_EXPORTS := formField
-
 # The library is pure DOM glue with no production dependencies, so
 # bundle size should stay in the low single-digit kilobytes. The cap
 # is set above the current bundle to absorb minor edits while still
@@ -42,7 +38,7 @@ ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST) $(BROWSER_TEST_DST)
 
 # Build/test paths require Node's native TypeScript type-strip (default on
 # Node 22.18+). Older runtimes (e.g. Node 20) report BUILDABLE=NO and can
-# still verify pre-built bundles via `make smoke`.
+# still verify pre-built bundles via the builder/pack targets.
 BUILDABLE := $(shell node -e 'console.log(process.features.typescript ? "YES" : "NO")')
 
 ####
@@ -106,29 +102,6 @@ $(BUILDER_TEST_DST): $(BUILDER_TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(
 
 ####
 
-# Verify the bundles by importing/requiring the package itself.
-# This exercises the public entrypoints (exports/main) the same way an
-# external consumer would, so a misconfigured `exports` field breaks
-# the build early.
-smoke: smoke-mjs smoke-cjs smoke-minjs
-
-# MJS smoke test via public entrypoint.
-smoke-mjs: $(MJS_DST)
-	cd .. && node --input-type=module -e 'const m = await import("html-form-field"); for (const k of process.argv.slice(1)) { if (typeof m[k] !== "function") { console.error("missing MJS export:", k); process.exit(1); } console.log("MJS export OK:", k); }' $(NAMED_EXPORTS)
-
-# CJS smoke test via public entrypoint.
-smoke-cjs: $(CJS_DST)
-	cd .. && node --input-type=commonjs -e 'const m = require("html-form-field"); for (const k of process.argv.slice(1)) { if (typeof m[k] !== "function") { console.error("missing CJS export:", k); process.exit(1); } console.log("CJS export OK:", k); }' $(NAMED_EXPORTS)
-
-# Smoke the .min.js in two consumer shapes:
-#  (1) browser IIFE: verify the named export is callable as the
-#      global the bundle sets.
-#  (2) CJS require(): verify the same .min.js is also usable as a
-#      CommonJS module (the bundle is intentionally dual-use).
-smoke-minjs: $(MINJS_DST) $(PKG_DST)
-	(cat $< && echo '; for (const k of process.argv.slice(2)) { if (typeof eval(k) !== "function") { console.error("missing browser export:", k); process.exit(1); } console.log("browser export OK:", k); }') | node - $(NAMED_EXPORTS)
-	cd .. && node --input-type=commonjs -e 'const m = require("./dist/html-form-field.min.js"); for (const k of process.argv.slice(1)) { if (typeof m[k] !== "function") { console.error("missing minjs CJS export:", k); process.exit(1); } console.log("minjs CJS export OK:", k); }' $(NAMED_EXPORTS)
-
 ####
 
 # Consumer `npm install` and `npm ci` skip the heavy test-full step.
@@ -139,7 +112,7 @@ test:
 		*) $(MAKE) test-full ;; \
 	esac
 
-test-full: all smoke
+test-full: all
 	cd .. && node_modules/.bin/tsc --noEmit
 	cd .. && node_modules/.bin/ts-refine format --check && node_modules/.bin/ts-refine imports --check
 	cd .. && node --test test/*.test.ts
@@ -150,4 +123,4 @@ test-full: all smoke
 clean:
 	/bin/rm -fr $(ALL) $(BUILDER_TEST_DST)
 
-.PHONY: all clean test smoke smoke-mjs smoke-cjs smoke-minjs test-full is-buildable is-not-buildable
+.PHONY: all clean test test-full is-buildable is-not-buildable

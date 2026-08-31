@@ -17,6 +17,6 @@
 <script src="../node_modules/html-ele/dist/html-ele.min.js"></script>
 <script src="../dist/html-form-field.min.js"></script>
 <script src="./tests/bundled.js"></script>
-<script>window.mochaDone = new Promise(resolve => mocha.run(resolve));</script>
+<script>const runner = mocha.run(() => (window.mochaStats = runner.stats));</script>
 </body>
 </html>

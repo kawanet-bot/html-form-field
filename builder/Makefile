@@ -21,17 +21,8 @@ MINJS_CONFIG := ./rollup-minjs.config.ts
 BROWSER_TEST_CONFIG := ./rollup-browser-test.config.ts
 BUILDER_TEST_CONFIG := ./rollup-builder-test.config.ts
 
-# The library is pure DOM glue with no production dependencies, so
-# bundle size should stay in the low single-digit kilobytes. The cap
-# is set above the current bundle to absorb minor edits while still
-# tripping fast if a transitive dep slips in.
 MAX_BYTES := 16000
-
-# Cap for the browser test bundle, which inlines all `test/*.test.ts`
-# sources plus the node:test / node:assert / jsdom shims. Both the
-# package under test and html-ele are externalized through the
-# alias plugin and global script tags in browser/tests.html, so the
-# test bundle itself stays modest.
+MINJS_MAX_BYTES := 4000
 TEST_MAX_BYTES := 80000
 
 ALL := $(MJS_DST) $(CJS_DST) $(MINJS_DST) $(PKG_DST)
@@ -80,7 +71,7 @@ $(MINJS_DST): $(MINJS_CONFIG) $(SRC) $(BUILDER_SRC) $(PKG_DST)
 	@mkdir -p $(dir $@)
 	../node_modules/.bin/rollup -c $<
 	@ls -l $@
-	@test "$$(wc -c < $@)" -le $(MAX_BYTES) || { echo "ERROR: $@ exceeds $(MAX_BYTES) byte cap" >&2; exit 1; }
+	@test "$$(wc -c < $@)" -le $(MINJS_MAX_BYTES) || { echo "ERROR: $@ exceeds $(MINJS_MAX_BYTES) byte cap" >&2; exit 1; }
 	@echo ""
 
 # Browser test bundle loaded by browser/tests.html.
@@ -102,8 +93,6 @@ $(BUILDER_TEST_DST): $(BUILDER_TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(
 
 ####
 
-####
-
 # Consumer `npm install` and `npm ci` skip the heavy test-full step.
 # CI re-runs `npm test` explicitly so the validation appears in logs.
 test:
@@ -116,7 +105,6 @@ test-full: all
 	cd .. && node_modules/.bin/tsc --noEmit
 	cd .. && node_modules/.bin/ts-refine format --check && node_modules/.bin/ts-refine imports --check
 	cd .. && node --test test/*.test.ts
-
 
 ####
 

@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "html-ele": "^0.2.0",
+    "html-ele": "^0.2.1",
     "jsdom": "^26 || ^30"
   }
 }

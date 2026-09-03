@@ -93,8 +93,6 @@ $(BUILDER_TEST_DST): $(BUILDER_TEST_CONFIG) $(SRC) $(BUILDER_SRC) $(TEST_SRC) $(
 
 ####
 
-####
-
 # Consumer `npm install` and `npm ci` skip the heavy test-full step.
 # CI re-runs `npm test` explicitly so the validation appears in logs.
 test:
@@ -107,7 +105,6 @@ test-full: all
 	cd .. && node_modules/.bin/tsc --noEmit
 	cd .. && node_modules/.bin/ts-refine format --check && node_modules/.bin/ts-refine imports --check
 	cd .. && node --test test/*.test.ts
-
 
 ####
 
